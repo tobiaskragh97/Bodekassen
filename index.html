@@ -458,16 +458,25 @@ function mkChart(id, type, labels, data, color, showValues=false, horizontal=fal
       plugins: {
         legend: { display: false },
         tooltip: { callbacks: { label: ctx => " " + Math.round(ctx.parsed[horizontal?'x':'y']).toLocaleString("da-DK") + " kr." } },
-        datalabels: { display: false }
       },
       scales: {
         x: {
           grid: { color: horizontal ? "#f0f4f8" : "transparent" },
-          ticks: { font:{size:10}, callback: v => horizontal ? Math.round(v).toLocaleString("da-DK") : v }
+          ticks: {
+            font: { size: 10 },
+            callback: horizontal
+              ? function(val) { return Math.round(val).toLocaleString("da-DK"); }
+              : function(val, idx) { return labels[idx]; }
+          }
         },
         y: {
           grid: { color: horizontal ? "transparent" : "#f0f4f8" },
-          ticks: { font:{size:10}, callback: v => horizontal ? v : Math.round(v).toLocaleString("da-DK") }
+          ticks: {
+            font: { size: 10 },
+            callback: horizontal
+              ? function(val, idx) { return labels[idx]; }
+              : function(val) { return Math.round(val).toLocaleString("da-DK"); }
+          }
         }
       }
     }
