@@ -236,7 +236,26 @@
 <script>
 let allData = [];
 
-const XLSX_URL = "https://raw.githubusercontent.com/tobiaskragh97/Bodekassen/main/bodekasse.xlsx";
+const XLSX_URL     = "https://raw.githubusercontent.com/tobiaskragh97/Bodekassen/main/bodekasse.xlsx";
+const CASHFLOW_URL = "https://raw.githubusercontent.com/tobiaskragh97/Bodekassen/main/Cashflow.xlsx";
+
+async function loadCashflow() {
+  try {
+    const res = await fetch(CASHFLOW_URL + "?t=" + Date.now());
+    if (!res.ok) return;
+    const buf = await res.arrayBuffer();
+    const wb  = XLSX.read(buf, { type: "array" });
+    const ws  = wb.Sheets[wb.SheetNames[0]];
+    const raw = XLSX.utils.sheet_to_json(ws, { defval: 0 });
+    const total = raw.reduce((s, r) => {
+      const val = parseFloat(r["Beløb"] || r["Beløb"] || 0);
+      return s + (isNaN(val) ? 0 : val);
+    }, 0);
+    document.getElementById("kassebeholdning").textContent = fmt(Math.round(total));
+  } catch(e) {
+    console.log("Cashflow fejl:", e);
+  }
+}
 
 async function loadData() {
   try {
@@ -251,6 +270,7 @@ async function loadData() {
     render();
     document.getElementById("loading").style.display = "none";
     document.getElementById("content").style.display = "block";
+    loadCashflow();
   } catch(e) {
     document.getElementById("loading").innerHTML =
       "⚠️ Kunne ikke hente data. Filen er måske ikke uploadet til GitHub endnu.<br><small>" + e.message + "</small>";
@@ -258,6 +278,7 @@ async function loadData() {
 }
 
 function initFilters() {
+  allData = allData.filter(r => r["Navn"] && r["Navn"] !== "Ingen");
   const sæsoner = [...new Set(allData.map(r => r["Sæson"]))].sort();
   const sSel = document.getElementById("sæsonFilter");
   sSel.innerHTML = sæsoner.map(s => `<option value="${s}">${s}</option>`).join("");
@@ -355,9 +376,7 @@ function render() {
     </tr>
   `;
 
-  // Kassebeholdning — vis samlet på tværs af alle sæsoner
-  const alleTotal = allData.reduce((s, r) => s + (r["Total"] || 0), 0);
-  document.getElementById("kassebeholdning").textContent = fmt(alleTotal);
+
 }
 
 loadData();
