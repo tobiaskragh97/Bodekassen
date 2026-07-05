@@ -287,8 +287,8 @@ async function loadData() {
     const wb2 = XLSX.read(buf2,{type:"array"});
     const ws2 = wb2.Sheets[wb2.SheetNames[0]];
     cashflowData = XLSX.utils.sheet_to_json(ws2, {defval:0});
-    window.beløbKey = Object.keys(cashflowData[0]||{}).find(k => k.replace(/\W/g,'').toLowerCase() === 'belb') ||
-                      Object.keys(cashflowData[0]||{}).find(k => k.toLowerCase().startsWith('bel')) || 'Beløb';
+    // Find beløb-kolonnen — brug position (4. kolonne) da æøå kan give encoding-problemer
+    window.beløbKey = Object.keys(cashflowData[0]||{})[3];
 
     const kasse = cashflowData.reduce((s,r) => s+(parseFloat(r[window.beløbKey])||0), 0);
     document.getElementById("kasseAmt").textContent = fmt(kasse);
