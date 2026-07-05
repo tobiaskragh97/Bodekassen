@@ -286,9 +286,7 @@ async function loadData() {
     const buf2 = await (await fetch(CASHFLOW_URL+"?t="+Date.now())).arrayBuffer();
     const wb2 = XLSX.read(buf2,{type:"array"});
     const ws2 = wb2.Sheets[wb2.SheetNames[0]];
-    // Header er på række 7 (0-indekseret = 6), data fra række 8
-    cashflowData = XLSX.utils.sheet_to_json(ws2, {defval:0, range: 6});
-    // Find the exact beløb column name (encoding-safe)
+    cashflowData = XLSX.utils.sheet_to_json(ws2, {defval:0});
     window.beløbKey = Object.keys(cashflowData[0]||{}).find(k => k.replace(/\W/g,'').toLowerCase() === 'belb') ||
                       Object.keys(cashflowData[0]||{}).find(k => k.toLowerCase().startsWith('bel')) || 'Beløb';
 
