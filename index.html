@@ -286,21 +286,13 @@ async function loadData() {
     const buf2 = await (await fetch(CASHFLOW_URL+"?t="+Date.now())).arrayBuffer();
     const wb2 = XLSX.read(buf2,{type:"array"});
     const ws2 = wb2.Sheets[wb2.SheetNames[0]];
-    // Find header row by looking for a row containing "Beløb" or "Dato"
-    const range = XLSX.utils.decode_range(ws2["!ref"]);
-    let headerRow = 0;
-    for (let r = 0; r <= Math.min(10, range.e.r); r++) {
-      for (let c = range.s.c; c <= range.e.c; c++) {
-        const cell = ws2[XLSX.utils.encode_cell({r,c})];
-        if (cell && cell.v && String(cell.v).toLowerCase().includes("dato")) {
-          headerRow = r; break;
-        }
-      }
-      if (headerRow > 0) break;
-    }
-    cashflowData = XLSX.utils.sheet_to_json(ws2, {defval:0, range: headerRow});
+    // Header er på række 7 (0-indekseret = 6), data fra række 8
+    cashflowData = XLSX.utils.sheet_to_json(ws2, {defval:0, range: 6});
+    // Find the exact beløb column name (encoding-safe)
+    window.beløbKey = Object.keys(cashflowData[0]||{}).find(k => k.replace(/\W/g,'').toLowerCase() === 'belb') ||
+                      Object.keys(cashflowData[0]||{}).find(k => k.toLowerCase().startsWith('bel')) || 'Beløb';
 
-    const kasse = cashflowData.reduce((s,r) => s+(parseFloat(r["Beløb"])||0), 0);
+    const kasse = cashflowData.reduce((s,r) => s+(parseFloat(r[window.beløbKey])||0), 0);
     document.getElementById("kasseAmt").textContent = fmt(kasse);
 
     initFilters(); render();
@@ -375,15 +367,14 @@ function render() {
 }
 
 function renderStats() {
-  const beløbKey2 = Object.keys(cashflowData[0]||{}).find(k => k.replace(/[^a-zA-Z]/g,"").toLowerCase().includes("belb") || k.toLowerCase().includes("bel")) || "Beløb";
-  const kasse = cashflowData.reduce((s,r)=>s+(parseFloat(r[beløbKey2])||0),0);
+  const kasse = cashflowData.reduce((s,r)=>s+(parseFloat(r[window.beløbKey])||0),0);
   document.getElementById("k-status").textContent = fmtN(kasse);
   document.getElementById("k-status-sub").textContent = "Bevægelse: " + fmtN(kasse) + " DKK";
 
-  const plIndbet = cashflowData.filter(r=>r["Kategori"]==="PL Bødekasse"&&(parseFloat(r[beløbKey2])||0)>0)
-    .reduce((s,r)=>s+(parseFloat(r[beløbKey2])||0),0);
-  const maxRunde = Math.max(...cashflowData.filter(r=>r["Kategori"]==="PL Bødekasse"&&(parseFloat(r[beløbKey2])||0)>0)
-    .map(r=>parseFloat(r[beløbKey2])||0));
+  const plIndbet = cashflowData.filter(r=>r["Kategori"]==="PL Bødekasse"&&(parseFloat(r[window.beløbKey])||0)>0)
+    .reduce((s,r)=>s+(parseFloat(r[window.beløbKey])||0),0);
+  const maxRunde = Math.max(...cashflowData.filter(r=>r["Kategori"]==="PL Bødekasse"&&(parseFloat(r[window.beløbKey])||0)>0)
+    .map(r=>parseFloat(r[window.beløbKey])||0));
   document.getElementById("k-indbetaling").textContent = fmtN(plIndbet);
   document.getElementById("k-indbetaling-sub").textContent = "Højest indbetalt: " + fmtN(maxRunde) + " DKK";
 
@@ -429,7 +420,7 @@ function renderStats() {
   const katMap = {};
   cashflowData.forEach(r => {
     const k = r["Kategori"]||"Andet";
-    katMap[k] = (katMap[k]||0) + (parseFloat(r[beløbKey2])||0);
+    katMap[k] = (katMap[k]||0) + (parseFloat(r[window.beløbKey])||0);
   });
   // Sort: positive first, then negative
   const katEntries = Object.entries(katMap).sort((a,b) => b[1]-a[1]);
