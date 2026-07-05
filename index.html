@@ -12,80 +12,75 @@ body { font-family: Arial, sans-serif; background: #f0f4f8; color: #222; min-hei
 
 header {
   background: #1F3864; color: white;
-  padding: 20px 32px;
+  padding: 16px 28px;
   display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
 }
-header h1 { font-size: 20px; letter-spacing: 0.02em; }
+header h1 { font-size: 18px; letter-spacing: 0.02em; }
+.kasse-header { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 8px 18px; text-align: center; }
+.kasse-header .lbl { font-size: 10px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.08em; }
+.kasse-header .amt { font-size: 22px; font-weight: 700; }
 
-.nav-tabs {
-  background: white; border-bottom: 2px solid #e0e6ef;
-  display: flex; padding: 0 32px; gap: 0;
-}
-.nav-tab {
-  padding: 14px 24px; font-size: 14px; font-weight: 600; cursor: pointer;
-  color: #888; border-bottom: 3px solid transparent; margin-bottom: -2px;
-  transition: all 0.15s;
-}
+.nav-tabs { background: white; border-bottom: 2px solid #e0e6ef; display: flex; padding: 0 28px; }
+.nav-tab { padding: 12px 22px; font-size: 13px; font-weight: 600; cursor: pointer; color: #888; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
 .nav-tab.active { color: #1F3864; border-bottom-color: #1F3864; }
 .nav-tab:hover { color: #1F3864; }
 
-.page { display: none; padding: 24px 32px; }
+/* Controls */
+.controls { background: white; padding: 12px 28px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid #e0e6ef; }
+.control-group { display: flex; flex-direction: column; gap: 3px; }
+.control-group label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+select { border: 1px solid #d0d8e8; border-radius: 6px; padding: 5px 10px; font-size: 13px; color: #1F3864; background: white; cursor: pointer; min-width: 130px; }
+
+/* Pages */
+.page { display: none; }
 .page.active { display: block; }
 
 /* ── RUNDE PAGE ── */
-.kassebeholdning { background: rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 20px; text-align: center; }
-.kassebeholdning .label { font-size: 11px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.08em; }
-.kassebeholdning .amount { font-size: 26px; font-weight: 700; }
-
-.controls {
-  background: white; padding: 16px 32px;
-  display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
-  border-bottom: 1px solid #e0e6ef; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-}
-.control-group { display: flex; flex-direction: column; gap: 4px; }
-.control-group label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
-select { border: 1px solid #d0d8e8; border-radius: 6px; padding: 6px 12px; font-size: 14px; color: #1F3864; background: white; cursor: pointer; min-width: 140px; }
-
-.summary-bar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-.summary-card { background: white; border-radius: 10px; padding: 14px 20px; border: 1px solid #e0e6ef; flex: 1; min-width: 140px; }
-.summary-card .s-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
-.summary-card .s-value { font-size: 22px; font-weight: 700; color: #1F3864; }
-
-.tables-row { display: grid; grid-template-columns: 1fr 260px; gap: 20px; align-items: start; }
-.card { background: white; border-radius: 10px; border: 1px solid #e0e6ef; overflow: hidden; }
-.card-title { padding: 14px 20px; font-size: 13px; font-weight: 700; color: #1F3864; border-bottom: 1px solid #e0e6ef; text-transform: uppercase; letter-spacing: 0.06em; }
-
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th { background: #1F3864; color: white; padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
-th.right, td.right { text-align: right; }
-td { padding: 9px 14px; border-bottom: 1px solid #f0f4f8; }
+.runde-page { padding: 20px 28px; }
+.r-summary { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.r-card { background: white; border-radius: 8px; border: 1px solid #e0e6ef; padding: 12px 18px; flex: 1; min-width: 130px; }
+.r-card .rl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+.r-card .rv { font-size: 20px; font-weight: 700; color: #1F3864; }
+.r-tables { display: grid; grid-template-columns: 1fr 240px; gap: 16px; }
+.card { background: white; border-radius: 8px; border: 1px solid #e0e6ef; overflow: hidden; }
+.card-title { padding: 12px 16px; font-size: 11px; font-weight: 700; color: #1F3864; border-bottom: 1px solid #e0e6ef; text-transform: uppercase; letter-spacing: 0.06em; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { background: #1F3864; color: white; padding: 8px 12px; text-align: left; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+th.r, td.r { text-align: right; }
+td { padding: 8px 12px; border-bottom: 1px solid #f0f4f8; }
 tr:last-child td { border-bottom: none; }
 tr:nth-child(even) td { background: #EBF0F8; }
-tr.total-row td { font-weight: 700; background: #f7f9fc; border-top: 2px solid #d0d8e8; }
-td.total-cell { color: #C00000; font-weight: 700; }
-
-.rank-badge { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: #1F3864; color: white; font-size: 11px; font-weight: 700; text-align: center; line-height: 22px; margin-right: 6px; }
+tr.tr td { font-weight: 700; background: #f7f9fc; border-top: 2px solid #d0d8e8; }
+td.red { color: #C00000; font-weight: 700; }
+.badge { display: inline-block; width: 20px; height: 20px; border-radius: 50%; background: #1F3864; color: white; font-size: 10px; font-weight: 700; text-align: center; line-height: 20px; margin-right: 5px; }
 
 /* ── STATS PAGE ── */
-.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 20px; }
-.kpi-card { background: white; border-radius: 10px; border: 1px solid #e0e6ef; padding: 16px 20px; }
-.kpi-card .kpi-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-.kpi-card .kpi-value { font-size: 28px; font-weight: 700; color: #1F3864; }
-.kpi-card .kpi-sub { font-size: 12px; color: #888; margin-top: 4px; }
-.kpi-card.highlight .kpi-value { color: #C00000; }
+.stats-page { padding: 16px 28px; }
 
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-.stats-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-.chart-wrap { padding: 20px; position: relative; }
+/* Top row: two KPI boxes + waterfall */
+.stats-top { display: grid; grid-template-columns: 340px 1fr; gap: 14px; margin-bottom: 14px; }
+.kpi-box { background: white; border-radius: 8px; border: 1px solid #e0e6ef; padding: 0; overflow: hidden; }
+.kpi-box-inner { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.kpi-box-inner.two { grid-template-columns: 1fr 1fr 1fr; }
+.kpi-cell { padding: 14px 16px; border-right: 1px solid #e0e6ef; }
+.kpi-cell:last-child { border-right: none; }
+.kpi-label { font-size: 10px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+.kpi-value { font-size: 22px; font-weight: 700; color: #111; }
+.kpi-sub { font-size: 11px; color: #888; margin-top: 4px; }
+.kpi-divider { border-top: 1px solid #e0e6ef; }
 
-.loading { padding: 60px; text-align: center; color: #888; font-size: 15px; }
+/* Bottom row: person bar | season bar | table */
+.stats-bottom { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
 
-@media (max-width: 900px) {
-  .tables-row, .stats-grid, .stats-grid-3 { grid-template-columns: 1fr; }
-  .page { padding: 16px; }
-  header { padding: 16px; }
-  .controls { padding: 12px 16px; }
-  .nav-tabs { padding: 0 16px; }
+.chart-wrap { padding: 16px; }
+.section-label { font-size: 10px; color: #888; padding: 0 16px 8px; }
+
+.loading { padding: 60px; text-align: center; color: #888; font-size: 14px; }
+
+@media (max-width: 1000px) {
+  .stats-top { grid-template-columns: 1fr; }
+  .stats-bottom { grid-template-columns: 1fr; }
+  .r-tables { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -93,15 +88,15 @@ td.total-cell { color: #C00000; font-weight: 700; }
 
 <header>
   <h1>⚽ Premier League Bødekassen</h1>
-  <div class="kassebeholdning">
-    <div class="label">Kassen lige nu</div>
-    <div class="amount" id="kassebeholdning">—</div>
+  <div class="kasse-header">
+    <div class="lbl">Kassen lige nu</div>
+    <div class="amt" id="kasseAmt">—</div>
   </div>
 </header>
 
 <div class="nav-tabs">
-  <div class="nav-tab active" onclick="showPage('runde')">Rundeoversigt</div>
-  <div class="nav-tab" onclick="showPage('stats')">Statistik</div>
+  <div class="nav-tab active" id="tab-runde" onclick="showPage('runde',this)">Rundeoversigt</div>
+  <div class="nav-tab" id="tab-stats" onclick="showPage('stats',this)">Statistik</div>
 </div>
 
 <div class="controls" id="rundeControls">
@@ -115,126 +110,158 @@ td.total-cell { color: #C00000; font-weight: 700; }
   </div>
 </div>
 
-<div id="loading" class="loading" style="padding:60px;text-align:center;color:#888;">Henter data...</div>
+<div id="appLoading" class="loading">Henter data...</div>
 
-<!-- RUNDE PAGE -->
+<!-- ══ RUNDE PAGE ══════════════════════════════════════════════════════════ -->
 <div id="page-runde" class="page active">
-  <div class="summary-bar">
-    <div class="summary-card"><div class="s-label">Samlet bøde denne runde</div><div class="s-value" id="rundeBøde">—</div></div>
-    <div class="summary-card"><div class="s-label">Point bøder</div><div class="s-value" id="pointBøde">—</div></div>
-    <div class="summary-card"><div class="s-label">Ekstra bøder</div><div class="s-value" id="ekstraBøde">—</div></div>
-  </div>
-  <div class="tables-row">
-    <div class="card">
-      <div class="card-title">Rundeoversigt</div>
-      <table>
-        <thead><tr>
-          <th>Navn</th><th>Top-10</th><th>Bund-10</th>
-          <th class="right">Point</th><th class="right">Gebyr</th><th class="right">Point bøde</th>
-          <th class="right">Rødt kort</th><th class="right">Straffe</th><th class="right">5-mål</th>
-          <th class="right">Andre</th><th class="right">Total</th>
-        </tr></thead>
-        <tbody id="rundeBody"></tbody>
-      </table>
+  <div class="runde-page">
+    <div class="r-summary">
+      <div class="r-card"><div class="rl">Samlet bøde denne runde</div><div class="rv" id="rBøde">—</div></div>
+      <div class="r-card"><div class="rl">Point bøder</div><div class="rv" id="rPoint">—</div></div>
+      <div class="r-card"><div class="rl">Ekstra bøder</div><div class="rv" id="rEkstra">—</div></div>
     </div>
-    <div class="card">
-      <div class="card-title">Sæson samlet</div>
-      <table>
-        <thead><tr><th></th><th>Navn</th><th class="right">Total</th></tr></thead>
-        <tbody id="sæsonBody"></tbody>
-      </table>
+    <div class="r-tables">
+      <div class="card">
+        <div class="card-title">Rundeoversigt</div>
+        <table>
+          <thead><tr>
+            <th>Navn</th><th>Top-10</th><th>Bund-10</th>
+            <th class="r">Point</th><th class="r">Gebyr</th><th class="r">Point bøde</th>
+            <th class="r">Rødt kort</th><th class="r">Straffe</th><th class="r">5-mål</th>
+            <th class="r">Andre</th><th class="r">Total</th>
+          </tr></thead>
+          <tbody id="rundeBody"></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">Sæson samlet</div>
+        <table>
+          <thead><tr><th></th><th>Navn</th><th class="r">Total</th></tr></thead>
+          <tbody id="sæsonBody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- STATS PAGE -->
+<!-- ══ STATS PAGE ══════════════════════════════════════════════════════════ -->
 <div id="page-stats" class="page">
+  <div class="stats-page">
 
-  <div class="kpi-row">
-    <div class="kpi-card">
-      <div class="kpi-label">Aktuel kasse</div>
-      <div class="kpi-value" id="s-kasse">—</div>
-      <div class="kpi-sub" id="s-kasse-sub"></div>
+    <!-- Top row -->
+    <div class="stats-top">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <!-- KPI box 1: Status / Samlet indbetaling / Highscorer -->
+        <div class="kpi-box">
+          <div class="kpi-box-inner">
+            <div class="kpi-cell">
+              <div class="kpi-label">Status</div>
+              <div class="kpi-value" id="k-status">—</div>
+              <div class="kpi-sub" id="k-status-sub"></div>
+            </div>
+            <div class="kpi-cell">
+              <div class="kpi-label">Samlet indbetaling</div>
+              <div class="kpi-value" id="k-indbetaling">—</div>
+              <div class="kpi-sub" id="k-indbetaling-sub"></div>
+            </div>
+            <div class="kpi-cell">
+              <div class="kpi-label">Highscorer</div>
+              <div class="kpi-value" id="k-highscorer">—</div>
+              <div class="kpi-sub" id="k-highscorer-sub"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI box 2: Røde / Straffe / Nederlag -->
+        <div class="kpi-box">
+          <div class="kpi-box-inner">
+            <div class="kpi-cell">
+              <div class="kpi-label">Røde</div>
+              <div class="kpi-value" id="k-roed">—</div>
+              <div class="kpi-sub" id="k-roed-sub"></div>
+            </div>
+            <div class="kpi-cell">
+              <div class="kpi-label">Straffe</div>
+              <div class="kpi-value" id="k-straffe">—</div>
+              <div class="kpi-sub" id="k-straffe-sub"></div>
+            </div>
+            <div class="kpi-cell">
+              <div class="kpi-label">Nederlag</div>
+              <div class="kpi-value" id="k-nederlag">—</div>
+              <div class="kpi-sub" id="k-nederlag-sub"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Waterfall -->
+      <div class="card">
+        <div class="card-title">Udvikling i bødekassen</div>
+        <div class="chart-wrap" style="height:260px;position:relative;">
+          <canvas id="chartVandfald"></canvas>
+        </div>
+      </div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Samlet indbetaling</div>
-      <div class="kpi-value" id="s-indbetaling">—</div>
-      <div class="kpi-sub" id="s-indbetaling-sub"></div>
-    </div>
-    <div class="kpi-card highlight">
-      <div class="kpi-label">All-time highscorer</div>
-      <div class="kpi-value" id="s-highscorer">—</div>
-      <div class="kpi-sub" id="s-highscorer-sub"></div>
-    </div>
-    <div class="kpi-card highlight">
-      <div class="kpi-label">Flest røde kort</div>
-      <div class="kpi-value" id="s-roed">—</div>
-      <div class="kpi-sub" id="s-roed-sub"></div>
-    </div>
-    <div class="kpi-card highlight">
-      <div class="kpi-label">Flest brændte straffe</div>
-      <div class="kpi-value" id="s-straffe">—</div>
-      <div class="kpi-sub" id="s-straffe-sub"></div>
-    </div>
-    <div class="kpi-card highlight">
-      <div class="kpi-label">Flest 5-måls nederlag</div>
-      <div class="kpi-value" id="s-nederlag">—</div>
-      <div class="kpi-sub" id="s-nederlag-sub"></div>
+
+    <!-- Bottom row -->
+    <div class="stats-bottom">
+
+      <!-- Indbetaling pr. person -->
+      <div class="card">
+        <div class="card-title">Indbetaling</div>
+        <div class="section-label">Pr. person</div>
+        <div class="chart-wrap" style="height:280px;position:relative;">
+          <canvas id="chartPerson"></canvas>
+        </div>
+      </div>
+
+      <!-- Indbetaling pr. sæson -->
+      <div class="card">
+        <div class="card-title">Indbetaling</div>
+        <div class="section-label">Pr. sæson</div>
+        <div class="chart-wrap" style="height:280px;position:relative;">
+          <canvas id="chartSæson"></canvas>
+        </div>
+      </div>
+
+      <!-- Bøde tabel -->
+      <div class="card">
+        <div class="card-title">Tabel — Bøder</div>
+        <div class="section-label">Pr. person</div>
+        <table>
+          <thead><tr>
+            <th>Navn</th>
+            <th class="r">Røde kort</th>
+            <th class="r">Brændte straffe</th>
+            <th class="r">5-måls neder.</th>
+            <th class="r">Point</th>
+          </tr></thead>
+          <tbody id="statsBody"></tbody>
+        </table>
+      </div>
+
     </div>
   </div>
-
-  <div class="stats-grid">
-    <div class="card">
-      <div class="card-title">Indbetaling pr. person (all-time)</div>
-      <div class="chart-wrap"><canvas id="chartPerson"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Indbetaling pr. sæson</div>
-      <div class="chart-wrap"><canvas id="chartSæson"></canvas></div>
-    </div>
-  </div>
-
-  <div class="stats-grid">
-    <div class="card">
-      <div class="card-title">Udvikling i bødekassen (vandfald)</div>
-      <div class="chart-wrap"><canvas id="chartVandfald"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Bøde-tabel — all-time</div>
-      <table>
-        <thead><tr>
-          <th>Navn</th>
-          <th class="right">Røde kort</th>
-          <th class="right">Brændte straffe</th>
-          <th class="right">5-mål neder.</th>
-          <th class="right">Point i alt</th>
-          <th class="right">Indbetalt</th>
-        </tr></thead>
-        <tbody id="statsBody"></tbody>
-      </table>
-    </div>
-  </div>
-
 </div>
 
 <script>
-let allData = [];
-let cashflowData = [];
-let charts = {};
+let allData = [], cashflowData = [], charts = {}, statsRendered = false;
 
 const XLSX_URL     = "https://raw.githubusercontent.com/tobiaskragh97/Bodekassen/main/bodekasse.xlsx";
 const CASHFLOW_URL = "https://raw.githubusercontent.com/tobiaskragh97/Bodekassen/main/Cashflow.xlsx";
 
-function showPage(name) {
+function fmt(v) { return Math.round(v).toLocaleString("da-DK") + " kr."; }
+function fmtN(v) { return Math.round(v).toLocaleString("da-DK"); }
+
+function showPage(name, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
-  event.target.classList.add('active');
+  el.classList.add('active');
   document.getElementById('rundeControls').style.display = name === 'runde' ? 'flex' : 'none';
-  if (name === 'stats') renderStats();
+  if (name === 'stats' && !statsRendered) { renderStats(); statsRendered = true; }
 }
-
-function fmt(kr) { return Math.round(kr).toLocaleString("da-DK") + " kr."; }
 
 async function loadData() {
   try {
@@ -242,214 +269,203 @@ async function loadData() {
       fetch(XLSX_URL + "?t=" + Date.now()),
       fetch(CASHFLOW_URL + "?t=" + Date.now())
     ]);
+    allData = XLSX.utils.sheet_to_json(
+      XLSX.read(await r1.arrayBuffer(), {type:"array"}).Sheets[
+        XLSX.read(await (await fetch(XLSX_URL+"?t=0")).arrayBuffer(),{type:"array"}).SheetNames[0]
+      ] || XLSX.read(await r1.arrayBuffer(),{type:"array"}).Sheets[
+        XLSX.read(await r1.arrayBuffer(),{type:"array"}).SheetNames[0]
+      ], {defval:0}
+    ).filter(r => r["Navn"] && r["Navn"] !== "Ingen");
 
-    const buf1 = await r1.arrayBuffer();
-    const wb1  = XLSX.read(buf1, { type: "array" });
-    const ws1  = wb1.Sheets[wb1.SheetNames[0]];
-    allData = XLSX.utils.sheet_to_json(ws1, { defval: 0 })
+    // simpler re-read
+    const buf1 = await (await fetch(XLSX_URL+"?t="+Date.now())).arrayBuffer();
+    const wb1 = XLSX.read(buf1,{type:"array"});
+    allData = XLSX.utils.sheet_to_json(wb1.Sheets[wb1.SheetNames[0]],{defval:0})
       .filter(r => r["Navn"] && r["Navn"] !== "Ingen");
 
-    const buf2 = await r2.arrayBuffer();
-    const wb2  = XLSX.read(buf2, { type: "array" });
-    const ws2  = wb2.Sheets[wb2.SheetNames[0]];
-    cashflowData = XLSX.utils.sheet_to_json(ws2, { defval: 0 });
+    const buf2 = await (await fetch(CASHFLOW_URL+"?t="+Date.now())).arrayBuffer();
+    const wb2 = XLSX.read(buf2,{type:"array"});
+    cashflowData = XLSX.utils.sheet_to_json(wb2.Sheets[wb2.SheetNames[0]],{defval:0});
 
-    // Kassebeholdning
-    const kasse = cashflowData.reduce((s, r) => s + (parseFloat(r["Beløb"]) || 0), 0);
-    document.getElementById("kassebeholdning").textContent = fmt(kasse);
-    document.getElementById("s-kasse").textContent = fmt(kasse);
+    const kasse = cashflowData.reduce((s,r) => s+(parseFloat(r["Beløb"])||0), 0);
+    document.getElementById("kasseAmt").textContent = fmt(kasse);
 
-    initFilters();
-    render();
-    document.getElementById("loading").style.display = "none";
-    document.getElementById("page-runde").style.display = "block";
-
+    initFilters(); render();
+    document.getElementById("appLoading").style.display = "none";
   } catch(e) {
-    document.getElementById("loading").innerHTML =
-      "⚠️ Kunne ikke hente data.<br><small>" + e.message + "</small>";
+    document.getElementById("appLoading").innerHTML = "⚠️ Fejl: " + e.message;
   }
 }
 
 function initFilters() {
-  const sæsoner = [...new Set(allData.map(r => r["Sæson"]))].sort();
-  const sSel = document.getElementById("sæsonFilter");
-  sSel.innerHTML = sæsoner.map(s => `<option value="${s}">${s}</option>`).join("");
-  sSel.value = sæsoner[sæsoner.length - 1];
+  const sæsoner = [...new Set(allData.map(r=>r["Sæson"]))].sort();
+  const s = document.getElementById("sæsonFilter");
+  s.innerHTML = sæsoner.map(x=>`<option value="${x}">${x}</option>`).join("");
+  s.value = sæsoner[sæsoner.length-1];
   updateRundeFilter();
 }
 
 function updateRundeFilter() {
   const sæson = document.getElementById("sæsonFilter").value;
-  const runder = [...new Set(allData.filter(r => r["Sæson"] === sæson).map(r => r["Spillerunde"]))]
-    .sort((a, b) => parseInt(a.replace("Runde ","")) - parseInt(b.replace("Runde ","")));
-  const rSel = document.getElementById("rundeFilter");
-  rSel.innerHTML = runder.map(r => `<option value="${r}">${r}</option>`).join("");
-  rSel.value = runder[runder.length - 1];
+  const runder = [...new Set(allData.filter(r=>r["Sæson"]===sæson).map(r=>r["Spillerunde"]))]
+    .sort((a,b) => parseInt(a.replace("Runde ",""))-parseInt(b.replace("Runde ","")));
+  const r = document.getElementById("rundeFilter");
+  r.innerHTML = runder.map(x=>`<option value="${x}">${x}</option>`).join("");
+  r.value = runder[runder.length-1];
 }
 
 function render() {
   const sæson = document.getElementById("sæsonFilter").value;
   const runde = document.getElementById("rundeFilter").value;
-  const rundeRows = allData
-    .filter(r => r["Sæson"] === sæson && r["Spillerunde"] === runde)
-    .sort((a, b) => a["Navn"].localeCompare(b["Navn"]));
+  const rows = allData.filter(r=>r["Sæson"]===sæson&&r["Spillerunde"]===runde)
+    .sort((a,b)=>a["Navn"].localeCompare(b["Navn"]));
 
-  const totalBøde   = rundeRows.reduce((s, r) => s + (r["Total"] || 0), 0);
-  const totalPoint  = rundeRows.reduce((s, r) => s + (r["Point bøde"] || 0), 0);
-  const totalEkstra = rundeRows.reduce((s, r) =>
-    s + (r["Rødt kort bøde"]||0) + (r["Straffe brændt bøde"]||0) + (r["Nederlag 5-mål bøde"]||0) + (r["Andre bøder"]||0), 0);
+  const tot   = rows.reduce((s,r)=>s+(r["Total"]||0),0);
+  const ptot  = rows.reduce((s,r)=>s+(r["Point bøde"]||0),0);
+  const etot  = rows.reduce((s,r)=>s+(r["Rødt kort bøde"]||0)+(r["Straffe brændt bøde"]||0)+(r["Nederlag 5-mål bøde"]||0)+(r["Andre bøder"]||0),0);
 
-  document.getElementById("rundeBøde").textContent  = fmt(totalBøde);
-  document.getElementById("pointBøde").textContent  = fmt(totalPoint);
-  document.getElementById("ekstraBøde").textContent = fmt(totalEkstra);
+  document.getElementById("rBøde").textContent  = fmt(tot);
+  document.getElementById("rPoint").textContent = fmt(ptot);
+  document.getElementById("rEkstra").textContent= fmt(etot);
 
-  document.getElementById("rundeBody").innerHTML = rundeRows.map(r => `
+  document.getElementById("rundeBody").innerHTML = rows.map(r=>`
     <tr>
       <td><strong>${r["Navn"]}</strong></td>
       <td>${r["Top-10"]||""}</td><td>${r["Bund-10"]||""}</td>
-      <td class="right">${r["Point"]||0}</td>
-      <td class="right">${fmt(r["Gebyr"]||0)}</td>
-      <td class="right">${fmt(r["Point bøde"]||0)}</td>
-      <td class="right">${fmt(r["Rødt kort bøde"]||0)}</td>
-      <td class="right">${fmt(r["Straffe brændt bøde"]||0)}</td>
-      <td class="right">${fmt(r["Nederlag 5-mål bøde"]||0)}</td>
-      <td class="right">${fmt(r["Andre bøder"]||0)}</td>
-      <td class="right total-cell">${fmt(r["Total"]||0)}</td>
-    </tr>`).join("") + `
-    <tr class="total-row">
+      <td class="r">${r["Point"]||0}</td>
+      <td class="r">${fmt(r["Gebyr"]||0)}</td>
+      <td class="r">${fmt(r["Point bøde"]||0)}</td>
+      <td class="r">${fmt(r["Rødt kort bøde"]||0)}</td>
+      <td class="r">${fmt(r["Straffe brændt bøde"]||0)}</td>
+      <td class="r">${fmt(r["Nederlag 5-mål bøde"]||0)}</td>
+      <td class="r">${fmt(r["Andre bøder"]||0)}</td>
+      <td class="r red">${fmt(r["Total"]||0)}</td>
+    </tr>`).join("")+`
+    <tr class="tr">
       <td colspan="3"><strong>Grand Total</strong></td>
-      <td class="right">${rundeRows.reduce((s,r)=>s+(r["Point"]||0),0)}</td>
-      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Gebyr"]||0),0))}</td>
-      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Point bøde"]||0),0))}</td>
-      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Rødt kort bøde"]||0),0))}</td>
-      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Straffe brændt bøde"]||0),0))}</td>
-      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Nederlag 5-mål bøde"]||0),0))}</td>
-      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Andre bøder"]||0),0))}</td>
-      <td class="right total-cell">${fmt(totalBøde)}</td>
+      <td class="r">${rows.reduce((s,r)=>s+(r["Point"]||0),0)}</td>
+      <td class="r">${fmt(rows.reduce((s,r)=>s+(r["Gebyr"]||0),0))}</td>
+      <td class="r">${fmt(rows.reduce((s,r)=>s+(r["Point bøde"]||0),0))}</td>
+      <td class="r">${fmt(rows.reduce((s,r)=>s+(r["Rødt kort bøde"]||0),0))}</td>
+      <td class="r">${fmt(rows.reduce((s,r)=>s+(r["Straffe brændt bøde"]||0),0))}</td>
+      <td class="r">${fmt(rows.reduce((s,r)=>s+(r["Nederlag 5-mål bøde"]||0),0))}</td>
+      <td class="r">${fmt(rows.reduce((s,r)=>s+(r["Andre bøder"]||0),0))}</td>
+      <td class="r red">${fmt(tot)}</td>
     </tr>`;
 
   const ejere = {};
-  allData.filter(r => r["Sæson"] === sæson).forEach(r => {
-    ejere[r["Navn"]] = (ejere[r["Navn"]] || 0) + (r["Total"] || 0);
-  });
-  const sorted = Object.entries(ejere).sort((a, b) => b[1] - a[1]);
-  document.getElementById("sæsonBody").innerHTML = sorted.map(([navn, total], i) => `
-    <tr>
-      <td><span class="rank-badge">${i+1}</span></td>
-      <td>${navn}</td>
-      <td class="right total-cell">${fmt(total)}</td>
-    </tr>`).join("") + `
-    <tr class="total-row"><td></td><td><strong>Grand Total</strong></td>
-    <td class="right total-cell">${fmt(sorted.reduce((s,[,v])=>s+v,0))}</td></tr>`;
+  allData.filter(r=>r["Sæson"]===sæson).forEach(r=>{ejere[r["Navn"]]=(ejere[r["Navn"]]||0)+(r["Total"]||0);});
+  const sorted = Object.entries(ejere).sort((a,b)=>b[1]-a[1]);
+  document.getElementById("sæsonBody").innerHTML = sorted.map(([n,v],i)=>`
+    <tr><td><span class="badge">${i+1}</span></td><td>${n}</td><td class="r red">${fmt(v)}</td></tr>`
+  ).join("")+`<tr class="tr"><td></td><td><strong>Total</strong></td><td class="r red">${fmt(sorted.reduce((s,[,v])=>s+v,0))}</td></tr>`;
 }
 
 function renderStats() {
-  // ── KPIs ──
-  const samletIndbetaling = cashflowData
-    .filter(r => r["Kategori"] === "PL Bødekasse")
-    .reduce((s, r) => s + (parseFloat(r["Beløb"]) || 0), 0);
+  const kasse = cashflowData.reduce((s,r)=>s+(parseFloat(r["Beløb"])||0),0);
+  document.getElementById("k-status").textContent = fmtN(kasse);
+  document.getElementById("k-status-sub").textContent = "Bevægelse: " + fmtN(kasse) + " DKK";
 
-  const maxRunde = Math.max(...cashflowData
-    .filter(r => r["Kategori"] === "PL Bødekasse" && parseFloat(r["Beløb"]) > 0)
-    .map(r => parseFloat(r["Beløb"]) || 0));
+  const plIndbet = cashflowData.filter(r=>r["Kategori"]==="PL Bødekasse"&&(parseFloat(r["Beløb"])||0)>0)
+    .reduce((s,r)=>s+(parseFloat(r["Beløb"])||0),0);
+  const maxRunde = Math.max(...cashflowData.filter(r=>r["Kategori"]==="PL Bødekasse"&&(parseFloat(r["Beløb"])||0)>0)
+    .map(r=>parseFloat(r["Beløb"])||0));
+  document.getElementById("k-indbetaling").textContent = fmtN(plIndbet);
+  document.getElementById("k-indbetaling-sub").textContent = "Højest indbetalt: " + fmtN(maxRunde) + " DKK";
 
-  document.getElementById("s-indbetaling").textContent = fmt(samletIndbetaling);
-  document.getElementById("s-indbetaling-sub").textContent = "Højeste runde: " + fmt(maxRunde);
-
-  // Per person totals
   const perPerson = {};
   allData.forEach(r => {
     const n = r["Navn"];
-    if (!perPerson[n]) perPerson[n] = { total: 0, roede: 0, straffe: 0, nederlag: 0, point: 0 };
-    perPerson[n].total    += r["Total"] || 0;
-    perPerson[n].roede    += r["Rødt kort"] || 0;
-    perPerson[n].straffe  += r["Brændt straffe"] || 0;
-    perPerson[n].nederlag += r["5-måls nederlag"] || 0;
-    perPerson[n].point    += r["Point"] || 0;
+    if (!perPerson[n]) perPerson[n] = {total:0,roede:0,straffe:0,nederlag:0,point:0};
+    perPerson[n].total    += r["Total"]||0;
+    perPerson[n].roede    += r["Rødt kort"]||0;
+    perPerson[n].straffe  += r["Brændt straffe"]||0;
+    perPerson[n].nederlag += r["5-måls nederlag"]||0;
+    perPerson[n].point    += r["Point"]||0;
   });
 
-  const sortedPersoner = Object.entries(perPerson).sort((a,b) => b[1].total - a[1].total);
-  const highscorer = sortedPersoner[0];
-  document.getElementById("s-highscorer").textContent = highscorer[0];
-  document.getElementById("s-highscorer-sub").textContent = "Indbetalt: " + fmt(highscorer[1].total);
+  const byTotal    = Object.entries(perPerson).sort((a,b)=>b[1].total-a[1].total);
+  const byRoed     = Object.entries(perPerson).sort((a,b)=>b[1].roede-a[1].roede);
+  const byStraffe  = Object.entries(perPerson).sort((a,b)=>b[1].straffe-a[1].straffe);
+  const byNederlag = Object.entries(perPerson).sort((a,b)=>b[1].nederlag-a[1].nederlag);
+  const totalRoed  = Object.values(perPerson).reduce((s,v)=>s+v.roede,0);
+  const totalStr   = Object.values(perPerson).reduce((s,v)=>s+v.straffe,0);
+  const totalNed   = Object.values(perPerson).reduce((s,v)=>s+v.nederlag,0);
 
-  const kassen = cashflowData.reduce((s, r) => s + (parseFloat(r["Beløb"]) || 0), 0);
-  document.getElementById("s-kasse").textContent = fmt(kassen);
+  document.getElementById("k-highscorer").textContent    = byTotal[0][0];
+  document.getElementById("k-highscorer-sub").textContent= "Indbetalt: " + fmtN(byTotal[0][1].total) + " DKK";
+  document.getElementById("k-roed").textContent          = byRoed[0][0];
+  document.getElementById("k-roed-sub").textContent      = `Antal: ${byRoed[0][1].roede} – ${Math.round(byRoed[0][1].roede/totalRoed*100)} %`;
+  document.getElementById("k-straffe").textContent       = byStraffe[0][0];
+  document.getElementById("k-straffe-sub").textContent   = `Antal: ${byStraffe[0][1].straffe} – ${Math.round(byStraffe[0][1].straffe/totalStr*100)} %`;
+  document.getElementById("k-nederlag").textContent      = byNederlag[0][0];
+  document.getElementById("k-nederlag-sub").textContent  = `Antal: ${byNederlag[0][1].nederlag} – ${Math.round(byNederlag[0][1].nederlag/totalNed*100)} %`;
 
-  const maxRoede = Object.entries(perPerson).sort((a,b) => b[1].roede - a[1].roede)[0];
-  const totalRoede = Object.values(perPerson).reduce((s,v) => s+v.roede, 0);
-  document.getElementById("s-roed").textContent = maxRoede[0];
-  document.getElementById("s-roed-sub").textContent = `Antal: ${maxRoede[1].roede} – ${Math.round(maxRoede[1].roede/totalRoede*100)} %`;
-
-  const maxStraffe = Object.entries(perPerson).sort((a,b) => b[1].straffe - a[1].straffe)[0];
-  const totalStraffe = Object.values(perPerson).reduce((s,v) => s+v.straffe, 0);
-  document.getElementById("s-straffe").textContent = maxStraffe[0];
-  document.getElementById("s-straffe-sub").textContent = `Antal: ${maxStraffe[1].straffe} – ${Math.round(maxStraffe[1].straffe/totalStraffe*100)} %`;
-
-  const maxNederlag = Object.entries(perPerson).sort((a,b) => b[1].nederlag - a[1].nederlag)[0];
-  const totalNederlag = Object.values(perPerson).reduce((s,v) => s+v.nederlag, 0);
-  document.getElementById("s-nederlag").textContent = maxNederlag[0];
-  document.getElementById("s-nederlag-sub").textContent = `Antal: ${maxNederlag[1].nederlag} – ${Math.round(maxNederlag[1].nederlag/totalNederlag*100)} %`;
-
-  // ── STATS TABLE ──
-  document.getElementById("statsBody").innerHTML = sortedPersoner.map(([navn, d]) => `
+  // Stats table — sorted by 5-mål desc (matching Power BI)
+  document.getElementById("statsBody").innerHTML = byNederlag.map(([n,d])=>`
     <tr>
-      <td><strong>${navn}</strong></td>
-      <td class="right">${d.roede}</td>
-      <td class="right">${d.straffe}</td>
-      <td class="right">${d.nederlag}</td>
-      <td class="right">${d.point}</td>
-      <td class="right total-cell">${fmt(d.total)}</td>
+      <td><strong>${n}</strong></td>
+      <td class="r">${d.roede}</td>
+      <td class="r">${d.straffe}</td>
+      <td class="r">${d.nederlag}</td>
+      <td class="r">${d.point}</td>
     </tr>`).join("");
 
-  // ── CHARTS ──
-  const BLUE = "#1F3864"; const RED = "#C00000"; const GREEN = "#1a7a4a"; const GRAY = "#888";
-
-  // Indbetaling pr. person
-  const personLabels = sortedPersoner.map(([n]) => n);
-  const personVals   = sortedPersoner.map(([,d]) => d.total);
-  makeBar("chartPerson", personLabels, personVals, BLUE);
-
-  // Indbetaling pr. sæson
-  const sæsonMap = {};
-  allData.forEach(r => { sæsonMap[r["Sæson"]] = (sæsonMap[r["Sæson"]]||0) + (r["Total"]||0); });
-  const sæsonLabels = Object.keys(sæsonMap).sort();
-  const sæsonVals   = sæsonLabels.map(s => sæsonMap[s]);
-  makeBar("chartSæson", sæsonLabels, sæsonVals, "#2563a8");
-
-  // Vandfald
-  const kategorier = {};
+  // ── VANDFALD ──
+  const katMap = {};
   cashflowData.forEach(r => {
-    const kat = r["Kategori"] || "Andet";
-    kategorier[kat] = (kategorier[kat] || 0) + (parseFloat(r["Beløb"]) || 0);
+    const k = r["Kategori"]||"Andet";
+    katMap[k] = (katMap[k]||0) + (parseFloat(r["Beløb"])||0);
   });
-  const vLabels = Object.keys(kategorier);
-  const vVals   = vLabels.map(k => Math.round(kategorier[k]));
-  const total   = vVals.reduce((s,v) => s+v, 0);
-  vLabels.push("Total"); vVals.push(total);
-  const vColors = vVals.map((v,i) => i === vVals.length-1 ? GRAY : v >= 0 ? GREEN : RED);
-  makeBar("chartVandfald", vLabels, vVals, vColors);
+  // Sort: positive first, then negative
+  const katEntries = Object.entries(katMap).sort((a,b) => b[1]-a[1]);
+  const vLabels = katEntries.map(([k])=>k);
+  const vVals   = katEntries.map(([,v])=>Math.round(v));
+  const total   = vVals.reduce((s,v)=>s+v,0);
+  vLabels.push("Total"); vVals.push(Math.round(total));
+
+  const GREEN="#1a7a4a", RED="#C00000", GRAY="#888888";
+  const vColors = vVals.map((v,i) => i===vVals.length-1 ? GRAY : v>=0 ? GREEN : RED);
+
+  mkChart("chartVandfald", "bar", vLabels, vVals, vColors, true);
+
+  // ── PERSON (horizontal) ──
+  const pLabels = byTotal.map(([n])=>n).reverse();
+  const pVals   = byTotal.map(([,d])=>d.total).reverse();
+  mkChart("chartPerson", "bar", pLabels, pVals, "#1F3864", false, true);
+
+  // ── SÆSON (horizontal) ──
+  const sæsonMap = {};
+  allData.forEach(r=>{sæsonMap[r["Sæson"]]=(sæsonMap[r["Sæson"]]||0)+(r["Total"]||0);});
+  const sLabels = Object.keys(sæsonMap).sort().reverse();
+  const sVals   = sLabels.map(s=>Math.round(sæsonMap[s]));
+  mkChart("chartSæson", "bar", sLabels, sVals, "#2563a8", false, true);
 }
 
-function makeBar(id, labels, data, color) {
+function mkChart(id, type, labels, data, color, showValues=false, horizontal=false) {
   if (charts[id]) charts[id].destroy();
   const ctx = document.getElementById(id).getContext("2d");
   charts[id] = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels,
-      datasets: [{
-        data,
-        backgroundColor: Array.isArray(color) ? color : color,
-        borderRadius: 4,
-      }]
-    },
+    type,
+    data: { labels, datasets: [{ data, backgroundColor: color, borderRadius: 3 }] },
     options: {
+      indexAxis: horizontal ? 'y' : 'x',
       responsive: true,
-      plugins: { legend: { display: false } },
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => " " + Math.round(ctx.parsed[horizontal?'x':'y']).toLocaleString("da-DK") + " kr." } },
+        datalabels: { display: false }
+      },
       scales: {
-        y: { ticks: { callback: v => v.toLocaleString("da-DK") + " kr." }, grid: { color: "#f0f4f8" } },
-        x: { grid: { display: false } }
+        x: {
+          grid: { color: horizontal ? "#f0f4f8" : "transparent" },
+          ticks: { font:{size:10}, callback: v => horizontal ? Math.round(v).toLocaleString("da-DK") : v }
+        },
+        y: {
+          grid: { color: horizontal ? "transparent" : "#f0f4f8" },
+          ticks: { font:{size:10}, callback: v => horizontal ? v : Math.round(v).toLocaleString("da-DK") }
+        }
       }
     }
   });
