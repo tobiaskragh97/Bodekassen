@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premier League Bødekassen</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f4f8;
+    color: #222;
+    min-height: 100vh;
+  }
+
+  header {
+    background: #1F3864;
+    color: white;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  header h1 { font-size: 22px; letter-spacing: 0.02em; }
+
+  .kassebeholdning {
+    background: rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 10px 20px;
+    text-align: center;
+  }
+  .kassebeholdning .label { font-size: 11px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.08em; }
+  .kassebeholdning .amount { font-size: 26px; font-weight: 700; }
+
+  .controls {
+    background: white;
+    padding: 16px 32px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #e0e6ef;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .control-group { display: flex; flex-direction: column; gap: 4px; }
+  .control-group label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+  select {
+    border: 1px solid #d0d8e8;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #1F3864;
+    background: white;
+    cursor: pointer;
+    min-width: 140px;
+  }
+
+  .main { padding: 24px 32px; }
+
+  .summary-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .summary-card {
+    background: white;
+    border-radius: 10px;
+    padding: 14px 20px;
+    border: 1px solid #e0e6ef;
+    flex: 1;
+    min-width: 140px;
+  }
+  .summary-card .s-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .summary-card .s-value { font-size: 22px; font-weight: 700; color: #1F3864; }
+
+  .tables-row {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .card {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e0e6ef;
+    overflow: hidden;
+  }
+
+  .card-title {
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1F3864;
+    border-bottom: 1px solid #e0e6ef;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: #1F3864;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  th.right, td.right { text-align: right; }
+
+  td { padding: 9px 14px; border-bottom: 1px solid #f0f4f8; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #EBF0F8; }
+  tr.total-row td { font-weight: 700; background: #f7f9fc; border-top: 2px solid #d0d8e8; }
+
+  td.total-cell { color: #C00000; font-weight: 700; }
+
+  .rank-badge {
+    display: inline-block;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #1F3864;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 22px;
+    margin-right: 6px;
+  }
+
+  .loading {
+    padding: 60px;
+    text-align: center;
+    color: #888;
+    font-size: 15px;
+  }
+
+  @media (max-width: 900px) {
+    .tables-row { grid-template-columns: 1fr; }
+    .main { padding: 16px; }
+    header { padding: 16px; }
+    .controls { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚽ Premier League Bødekassen</h1>
+  <div class="kassebeholdning">
+    <div class="label">Bødekassen</div>
+    <div class="amount" id="kassebeholdning">—</div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="control-group">
+    <label>Sæson</label>
+    <select id="sæsonFilter" onchange="render()"></select>
+  </div>
+  <div class="control-group">
+    <label>Spillerunde</label>
+    <select id="rundeFilter" onchange="render()"></select>
+  </div>
+</div>
+
+<div class="main">
+  <div id="loading" class="loading">Henter data...</div>
+  <div id="content" style="display:none">
+    <div class="summary-bar">
+      <div class="summary-card">
+        <div class="s-label">Samlet bøde denne runde</div>
+        <div class="s-value" id="rundeBøde">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="s-label">Point bøder</div>
+        <div class="s-value" id="pointBøde">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="s-label">Ekstra bøder</div>
+        <div class="s-value" id="ekstraBøde">—</div>
+      </div>
+    </div>
+
+    <div class="tables-row">
+      <div class="card">
+        <div class="card-title">Rundeoversigt</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Navn</th>
+              <th>Top-10</th>
+              <th>Bund-10</th>
+              <th class="right">Point</th>
+              <th class="right">Gebyr</th>
+              <th class="right">Point bøde</th>
+              <th class="right">Rødt kort</th>
+              <th class="right">Straffe</th>
+              <th class="right">5-mål</th>
+              <th class="right">Andre</th>
+              <th class="right">Total</th>
+            </tr>
+          </thead>
+          <tbody id="rundeBody"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Sæson samlet</div>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Navn</th>
+              <th class="right">Total</th>
+            </tr>
+          </thead>
+          <tbody id="sæsonBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let allData = [];
+
+const XLSX_URL = "https://raw.githubusercontent.com/tobiaskragh97/Bodekassen/main/bodekasse.xlsx";
+
+async function loadData() {
+  try {
+    const res = await fetch(XLSX_URL + "?t=" + Date.now());
+    if (!res.ok) throw new Error("Kunne ikke hente filen");
+    const buf = await res.arrayBuffer();
+    const wb  = XLSX.read(buf, { type: "array" });
+    const ws  = wb.Sheets[wb.SheetNames[0]];
+    const raw = XLSX.utils.sheet_to_json(ws, { defval: 0 });
+    allData = raw;
+    initFilters();
+    render();
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("content").style.display = "block";
+  } catch(e) {
+    document.getElementById("loading").innerHTML =
+      "⚠️ Kunne ikke hente data. Filen er måske ikke uploadet til GitHub endnu.<br><small>" + e.message + "</small>";
+  }
+}
+
+function initFilters() {
+  const sæsoner = [...new Set(allData.map(r => r["Sæson"]))].sort();
+  const sSel = document.getElementById("sæsonFilter");
+  sSel.innerHTML = sæsoner.map(s => `<option value="${s}">${s}</option>`).join("");
+  sSel.value = sæsoner[sæsoner.length - 1];
+  updateRundeFilter();
+}
+
+function updateRundeFilter() {
+  const sæson = document.getElementById("sæsonFilter").value;
+  const runder = [...new Set(allData.filter(r => r["Sæson"] === sæson).map(r => r["Spillerunde"]))]
+    .sort((a, b) => parseInt(a.replace("Runde ","")) - parseInt(b.replace("Runde ","")));
+  const rSel = document.getElementById("rundeFilter");
+  rSel.innerHTML = runder.map(r => `<option value="${r}">${r}</option>`).join("");
+  rSel.value = runder[runder.length - 1];
+}
+
+document.getElementById("sæsonFilter").addEventListener("change", () => {
+  updateRundeFilter();
+  render();
+});
+
+function fmt(kr) {
+  return kr.toLocaleString("da-DK") + " kr.";
+}
+
+function render() {
+  const sæson = document.getElementById("sæsonFilter").value;
+  const runde = document.getElementById("rundeFilter").value;
+
+  // Runde data
+  const rundeRows = allData
+    .filter(r => r["Sæson"] === sæson && r["Spillerunde"] === runde)
+    .sort((a, b) => a["Navn"].localeCompare(b["Navn"]));
+
+  // Summary
+  const totalBøde  = rundeRows.reduce((s, r) => s + (r["Total"] || 0), 0);
+  const totalPoint = rundeRows.reduce((s, r) => s + (r["Point bøde"] || 0), 0);
+  const totalEkstra = rundeRows.reduce((s, r) =>
+    s + (r["Rødt kort bøde"]||0) + (r["Straffe brændt bøde"]||0) + (r["Nederlag 5-mål bøde"]||0) + (r["Andre bøder"]||0), 0);
+
+  document.getElementById("rundeBøde").textContent  = fmt(totalBøde);
+  document.getElementById("pointBøde").textContent  = fmt(totalPoint);
+  document.getElementById("ekstraBøde").textContent = fmt(totalEkstra);
+
+  // Runde tabel
+  const tbody = document.getElementById("rundeBody");
+  tbody.innerHTML = rundeRows.map(r => `
+    <tr>
+      <td><strong>${r["Navn"]}</strong></td>
+      <td>${r["Top-10"] || ""}</td>
+      <td>${r["Bund-10"] || ""}</td>
+      <td class="right">${r["Point"] || 0}</td>
+      <td class="right">${fmt(r["Gebyr"] || 0)}</td>
+      <td class="right">${fmt(r["Point bøde"] || 0)}</td>
+      <td class="right">${fmt(r["Rødt kort bøde"] || 0)}</td>
+      <td class="right">${fmt(r["Straffe brændt bøde"] || 0)}</td>
+      <td class="right">${fmt(r["Nederlag 5-mål bøde"] || 0)}</td>
+      <td class="right">${fmt(r["Andre bøder"] || 0)}</td>
+      <td class="right total-cell">${fmt(r["Total"] || 0)}</td>
+    </tr>
+  `).join("") + `
+    <tr class="total-row">
+      <td colspan="3"><strong>Grand Total</strong></td>
+      <td class="right">${rundeRows.reduce((s,r)=>s+(r["Point"]||0),0)}</td>
+      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Gebyr"]||0),0))}</td>
+      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Point bøde"]||0),0))}</td>
+      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Rødt kort bøde"]||0),0))}</td>
+      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Straffe brændt bøde"]||0),0))}</td>
+      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Nederlag 5-mål bøde"]||0),0))}</td>
+      <td class="right">${fmt(rundeRows.reduce((s,r)=>s+(r["Andre bøder"]||0),0))}</td>
+      <td class="right total-cell">${fmt(totalBøde)}</td>
+    </tr>
+  `;
+
+  // Sæson samlet
+  const sæsonRows = allData.filter(r => r["Sæson"] === sæson);
+  const ejere = {};
+  sæsonRows.forEach(r => {
+    ejere[r["Navn"]] = (ejere[r["Navn"]] || 0) + (r["Total"] || 0);
+  });
+  const sorted = Object.entries(ejere).sort((a, b) => b[1] - a[1]);
+  const sæsonTotal = sorted.reduce((s, [,v]) => s + v, 0);
+
+  document.getElementById("sæsonBody").innerHTML = sorted.map(([navn, total], i) => `
+    <tr>
+      <td><span class="rank-badge">${i+1}</span></td>
+      <td>${navn}</td>
+      <td class="right total-cell">${fmt(total)}</td>
+    </tr>
+  `).join("") + `
+    <tr class="total-row">
+      <td></td>
+      <td><strong>Grand Total</strong></td>
+      <td class="right total-cell">${fmt(sæsonTotal)}</td>
+    </tr>
+  `;
+
+  // Kassebeholdning — vis samlet på tværs af alle sæsoner
+  const alleTotal = allData.reduce((s, r) => s + (r["Total"] || 0), 0);
+  document.getElementById("kassebeholdning").textContent = fmt(alleTotal);
+}
+
+loadData();
+</script>
+</body>
+</html>
