@@ -63,11 +63,11 @@ td.red { color: #C00000; font-weight: 700; }
 .kpi-box { background: white; border-radius: 8px; border: 1px solid #e0e6ef; padding: 0; overflow: hidden; }
 .kpi-box-inner { display: grid; grid-template-columns: 1fr 1fr 1fr; flex: 1; }
 .kpi-box-inner.two { grid-template-columns: 1fr 1fr 1fr; flex: 1; }
-.kpi-cell { padding: 14px 16px; border-right: 1px solid #e0e6ef; }
+.kpi-cell { padding: 18px 16px; border-right: 1px solid #e0e6ef; }
 .kpi-cell:last-child { border-right: none; }
-.kpi-label { font-size: 10px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+.kpi-label { font-size: 10px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
 .kpi-value { font-size: 22px; font-weight: 700; color: #111; }
-.kpi-sub { font-size: 11px; color: #888; margin-top: 4px; }
+.kpi-sub { font-size: 13px; color: #888; margin-top: 10px; }
 .kpi-divider { border-top: 1px solid #e0e6ef; }
 
 /* Bottom row: person bar | season bar | table */
@@ -368,7 +368,14 @@ function render() {
 function renderStats() {
   const kasse = cashflowData.reduce((s,r)=>s+(parseFloat(r[window.beløbKey])||0),0);
   document.getElementById("k-status").textContent = fmtN(kasse);
-  document.getElementById("k-status-sub").textContent = "Bevægelse: " + fmtN(kasse) + " DKK";
+  // Seneste sæsons cashflow (højeste sæson-nummer i cashflow)
+  const sæsonKey2 = Object.keys(cashflowData[0]||{}).find(k => k.toLowerCase() === "sæson") ||
+                    Object.keys(cashflowData[0]||{})[4] || "Sæson";
+  const maxSæsonNum = Math.max(...cashflowData.map(r => parseInt(r[sæsonKey2])||0));
+  const senesteSæsonFlow = cashflowData
+    .filter(r => parseInt(r[sæsonKey2]) === maxSæsonNum)
+    .reduce((s,r) => s+(parseFloat(r[window.beløbKey])||0), 0);
+  document.getElementById("k-status-sub").textContent = "Bevægelse: " + fmtN(senesteSæsonFlow) + " DKK";
 
   const plIndbet = cashflowData.filter(r=>r["Kategori"]==="PL Bødekasse"&&(parseFloat(r[window.beløbKey])||0)>0)
     .reduce((s,r)=>s+(parseFloat(r[window.beløbKey])||0),0);
