@@ -48,7 +48,7 @@ select { border: 1px solid #d0d8e8; border-radius: 6px; padding: 5px 10px; font-
 table { width: 100%; border-collapse: collapse; font-size: 12px; }
 th { background: #1F3864; color: white; padding: 8px 8px; text-align: left; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
 th.r, td.r { text-align: right; }
-td { padding: 8px 8px; border-bottom: 1px solid #f0f4f8; }
+td { padding: 10px 8px; border-bottom: 1px solid #f0f4f8; }
 tr:last-child td { border-bottom: none; }
 tr:nth-child(even) td { background: #EBF0F8; }
 tr.tr td { font-weight: 700; background: #f7f9fc; border-top: 2px solid #d0d8e8; }
@@ -134,7 +134,7 @@ td.red { color: #C00000; font-weight: 700; }
             <th>Navn</th><th>Top-10</th><th>Bund-10</th>
             <th class="r">Point</th><th class="r">Gebyr</th><th class="r">Point bøde</th>
             <th class="r">Rødt kort</th><th class="r">Straffe</th><th class="r">5-mål</th>
-            <th class="r">Andre</th><th class="r">Total</th>
+            <th class="r">Total</th>
           </tr></thead>
           <tbody id="rundeBody"></tbody>
         </table>
@@ -337,7 +337,8 @@ function render() {
   document.getElementById("rPoint").textContent = fmt(ptot);
   document.getElementById("rEkstra").textContent= fmt(etot);
 
-  const rowsSorted = [...rows].sort((a,b) => (b["Total"]||0) - (a["Total"]||0));
+  const calcTotal = r => (r["Gebyr"]||0)+(r["Point bøde"]||0)+(r["Rødt kort bøde"]||0)+(r["Straffe brændt bøde"]||0)+(r["Nederlag 5-mål bøde"]||0)+(r["Andre bøder"]||0);
+  const rowsSorted = [...rows].sort((a,b) => calcTotal(b) - calcTotal(a));
   document.getElementById("rundeBody").innerHTML = rowsSorted.map(r=>`
     <tr>
       <td><strong>${r["Navn"]}</strong></td>
@@ -348,7 +349,7 @@ function render() {
       <td class="r">${fmt(r["Rødt kort bøde"]||0)}</td>
       <td class="r">${fmt(r["Straffe brændt bøde"]||0)}</td>
       <td class="r">${fmt(r["Nederlag 5-mål bøde"]||0)}</td>
-      <td class="r red">${fmt(r["Total"]||0)}</td>
+      <td class="r red">${fmt(calcTotal(r))}</td>
     </tr>`).join("")+`
     <tr class="tr">
       <td colspan="3"><strong>Grand Total</strong></td>
@@ -358,7 +359,7 @@ function render() {
       <td class="r">${fmt(rows.reduce((s,r)=>s+(r["Rødt kort bøde"]||0),0))}</td>
       <td class="r">${fmt(rows.reduce((s,r)=>s+(r["Straffe brændt bøde"]||0),0))}</td>
       <td class="r">${fmt(rows.reduce((s,r)=>s+(r["Nederlag 5-mål bøde"]||0),0))}</td>
-      <td class="r red">${fmt(tot)}</td>
+      <td class="r red">${fmt(rows.reduce((s,r)=>s+calcTotal(r),0))}</td>
     </tr>`;
 
   const ejere = {};
