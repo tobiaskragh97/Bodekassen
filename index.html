@@ -46,9 +46,9 @@ select { border: 1px solid #d0d8e8; border-radius: 6px; padding: 5px 10px; font-
 .card { background: white; border-radius: 8px; border: 1px solid #e0e6ef; overflow: hidden; }
 .card-title { padding: 12px 16px; font-size: 11px; font-weight: 700; color: #1F3864; border-bottom: 1px solid #e0e6ef; text-transform: uppercase; letter-spacing: 0.06em; }
 table { width: 100%; border-collapse: collapse; font-size: 12px; }
-th { background: #1F3864; color: white; padding: 8px 12px; text-align: left; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+th { background: #1F3864; color: white; padding: 8px 8px; text-align: left; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
 th.r, td.r { text-align: right; }
-td { padding: 8px 12px; border-bottom: 1px solid #f0f4f8; }
+td { padding: 8px 8px; border-bottom: 1px solid #f0f4f8; }
 tr:last-child td { border-bottom: none; }
 tr:nth-child(even) td { background: #EBF0F8; }
 tr.tr td { font-weight: 700; background: #f7f9fc; border-top: 2px solid #d0d8e8; }
@@ -230,6 +230,7 @@ td.red { color: #C00000; font-weight: 700; }
       <div class="card">
         <div class="card-title">Tabel — Bøder</div>
         <div class="section-label">Pr. person</div>
+        <div style="overflow-x:auto;">
         <table>
           <thead><tr>
             <th>Navn</th>
@@ -240,6 +241,7 @@ td.red { color: #C00000; font-weight: 700; }
           </tr></thead>
           <tbody id="statsBody"></tbody>
         </table>
+        </div>
       </div>
 
     </div>
