@@ -435,10 +435,10 @@ function renderStats() {
   mkChart("chartVandfald", "bar", vLabels, vVals, vColors, true);
 
   // ── PERSON (horizontal) ──
-  // Descending: highest at top in horizontal bar = reversed for Chart.js
-  const pLabels = byTotal.map(([n])=>n).reverse();
-  const pVals   = byTotal.map(([,d])=>d.total).reverse();
-  mkChart("chartPerson", "bar", pLabels, pVals, "#1F3964", false, true);
+  // Chart.js horizontal bars render bottom-to-top, so ascending order = highest at top
+  const pLabels = byTotal.map(([n])=>n);
+  const pVals   = byTotal.map(([,d])=>d.total);
+  mkChart("chartPerson", "bar", pLabels, pVals, "#1F3864", false, true);
 
   // ── SÆSON (horizontal) ──
   const sæsonMap = {};
