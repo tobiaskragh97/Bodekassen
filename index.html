@@ -59,10 +59,10 @@ td.red { color: #C00000; font-weight: 700; }
 .stats-page { padding: 16px 28px; }
 
 /* Top row: two KPI boxes + waterfall */
-.stats-top { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.stats-top { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; align-items: stretch; }
 .kpi-box { background: white; border-radius: 8px; border: 1px solid #e0e6ef; padding: 0; overflow: hidden; }
-.kpi-box-inner { display: grid; grid-template-columns: 1fr 1fr 1fr; }
-.kpi-box-inner.two { grid-template-columns: 1fr 1fr 1fr; }
+.kpi-box-inner { display: grid; grid-template-columns: 1fr 1fr 1fr; flex: 1; }
+.kpi-box-inner.two { grid-template-columns: 1fr 1fr 1fr; flex: 1; }
 .kpi-cell { padding: 14px 16px; border-right: 1px solid #e0e6ef; }
 .kpi-cell:last-child { border-right: none; }
 .kpi-label { font-size: 10px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
@@ -151,10 +151,10 @@ td.red { color: #C00000; font-weight: 700; }
 
     <!-- Top row -->
     <div class="stats-top">
-      <div style="display:flex;flex-direction:column;gap:14px;min-width:0;">
+      <div style="display:flex;flex-direction:column;gap:14px;min-width:0;height:100%;">
 
         <!-- KPI box 1: Status / Samlet indbetaling / Highscorer -->
-        <div class="kpi-box">
+        <div class="kpi-box" style="flex:1;display:flex;flex-direction:column;">
           <div class="kpi-box-inner">
             <div class="kpi-cell">
               <div class="kpi-label">Status</div>
@@ -175,7 +175,7 @@ td.red { color: #C00000; font-weight: 700; }
         </div>
 
         <!-- KPI box 2: Røde / Straffe / Nederlag -->
-        <div class="kpi-box">
+        <div class="kpi-box" style="flex:1;display:flex;flex-direction:column;">
           <div class="kpi-box-inner">
             <div class="kpi-cell">
               <div class="kpi-label">Røde</div>
