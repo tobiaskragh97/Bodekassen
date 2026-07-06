@@ -450,8 +450,8 @@ function renderStats() {
     if (yearA !== yearB) return parseInt(yearA) - parseInt(yearB);
     return sæsonOrder.indexOf(typeA) - sæsonOrder.indexOf(typeB);
   });
-  // Reverse så nyeste er øverst i Chart.js (som renderer bottom-to-top)
-  const sLabels = sLabelsSorted.reverse();
+  // Chart.js renderer bottom-to-top, så ældste først = Efterår 2022 øverst
+  const sLabels = sLabelsSorted;
   const sVals = sLabels.map(s => Math.round(sæsonMap[s]));
   mkChart("chartSæson", "bar", sLabels, sVals, "#2563a8", false, true);
 }
