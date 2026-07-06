@@ -58,7 +58,7 @@ td.red { color: #C00000; font-weight: 700; }
 .stats-page { padding: 16px 28px; }
 
 /* Top row: two KPI boxes + waterfall */
-.stats-top { display: grid; grid-template-columns: 340px 1fr; gap: 14px; margin-bottom: 14px; }
+.stats-top { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
 .kpi-box { background: white; border-radius: 8px; border: 1px solid #e0e6ef; padding: 0; overflow: hidden; }
 .kpi-box-inner { display: grid; grid-template-columns: 1fr 1fr 1fr; }
 .kpi-box-inner.two { grid-template-columns: 1fr 1fr 1fr; }
@@ -150,7 +150,7 @@ td.red { color: #C00000; font-weight: 700; }
 
     <!-- Top row -->
     <div class="stats-top">
-      <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;flex-direction:column;gap:14px;min-width:0;">
 
         <!-- KPI box 1: Status / Samlet indbetaling / Highscorer -->
         <div class="kpi-box">
@@ -405,7 +405,8 @@ function renderStats() {
   document.getElementById("k-nederlag-sub").textContent  = `Antal: ${byNederlag[0][1].nederlag} – ${Math.round(byNederlag[0][1].nederlag/totalNed*100)} %`;
 
   // Stats table — sorted by 5-mål desc (matching Power BI)
-  document.getElementById("statsBody").innerHTML = byNederlag.map(([n,d])=>`
+  const byPoint = Object.entries(perPerson).sort((a,b)=>b[1].point-a[1].point);
+  document.getElementById("statsBody").innerHTML = byPoint.map(([n,d])=>`
     <tr>
       <td><strong>${n}</strong></td>
       <td class="r">${d.roede}</td>
@@ -433,15 +434,22 @@ function renderStats() {
   mkChart("chartVandfald", "bar", vLabels, vVals, vColors, true);
 
   // ── PERSON (horizontal) ──
+  // Descending: highest at top in horizontal bar = reversed for Chart.js
   const pLabels = byTotal.map(([n])=>n).reverse();
   const pVals   = byTotal.map(([,d])=>d.total).reverse();
-  mkChart("chartPerson", "bar", pLabels, pVals, "#1F3864", false, true);
+  mkChart("chartPerson", "bar", pLabels, pVals, "#1F3964", false, true);
 
   // ── SÆSON (horizontal) ──
   const sæsonMap = {};
   allData.forEach(r=>{sæsonMap[r["Sæson"]]=(sæsonMap[r["Sæson"]]||0)+(r["Total"]||0);});
-  const sLabels = Object.keys(sæsonMap).sort().reverse();
-  const sVals   = sLabels.map(s=>Math.round(sæsonMap[s]));
+  const sæsonOrder = ["Efterår","Forår"];
+  const sLabels = Object.keys(sæsonMap).sort((a, b) => {
+    const [typeA, yearA] = a.split(" ");
+    const [typeB, yearB] = b.split(" ");
+    if (yearA !== yearB) return parseInt(yearA) - parseInt(yearB);
+    return sæsonOrder.indexOf(typeA) - sæsonOrder.indexOf(typeB);
+  });
+  const sVals = sLabels.map(s => Math.round(sæsonMap[s]));
   mkChart("chartSæson", "bar", sLabels, sVals, "#2563a8", false, true);
 }
 
@@ -455,9 +463,10 @@ function mkChart(id, type, labels, data, color, showValues=false, horizontal=fal
       indexAxis: horizontal ? 'y' : 'x',
       responsive: true,
       maintainAspectRatio: false,
+      layout: { padding: { right: horizontal ? 70 : 10, top: horizontal ? 0 : 28 } },
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: ctx => " " + Math.round(ctx.parsed[horizontal?'x':'y']).toLocaleString("da-DK") + " kr." } },
+        tooltip: { callbacks: { label: c => " " + Math.round(c.parsed[horizontal?'x':'y']).toLocaleString("da-DK") + " kr." } },
       },
       scales: {
         x: {
@@ -479,10 +488,33 @@ function mkChart(id, type, labels, data, color, showValues=false, horizontal=fal
           }
         }
       }
-    }
+    },
+    plugins: [{
+      id: 'dataLabels_' + id,
+      afterDatasetsDraw(chart) {
+        const { ctx, data } = chart;
+        const meta = chart.getDatasetMeta(0);
+        ctx.save();
+        ctx.font = 'bold 10px Arial';
+        ctx.fillStyle = '#333';
+        meta.data.forEach((bar, i) => {
+          const val = data.datasets[0].data[i];
+          const label = Math.round(val).toLocaleString("da-DK");
+          if (horizontal) {
+            ctx.textAlign = val >= 0 ? 'left' : 'right';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(label, val >= 0 ? bar.x + 5 : bar.x - 5, bar.y);
+          } else {
+            ctx.textAlign = 'center';
+            ctx.textBaseline = val >= 0 ? 'bottom' : 'top';
+            ctx.fillText(label, bar.x, val >= 0 ? bar.y - 4 : bar.y + 4);
+          }
+        });
+        ctx.restore();
+      }
+    }]
   });
 }
-
 loadData();
 </script>
 </body>
