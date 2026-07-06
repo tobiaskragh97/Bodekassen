@@ -48,7 +48,8 @@ select { border: 1px solid #d0d8e8; border-radius: 6px; padding: 5px 10px; font-
 table { width: 100%; border-collapse: collapse; font-size: 12px; }
 th { background: #1F3864; color: white; padding: 8px 8px; text-align: left; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
 th.r, td.r { text-align: right; }
-td { padding: 0 8px; height: 44px; vertical-align: middle; border-bottom: 1px solid #f0f4f8; }
+td { padding: 8px 8px; border-bottom: 1px solid #f0f4f8; }
+.runde-tbl td { padding: 0 8px; height: 44px; vertical-align: middle; }
 tr:last-child td { border-bottom: none; }
 tr:nth-child(even) td { background: #EBF0F8; }
 tr.tr td { font-weight: 700; background: #f7f9fc; border-top: 2px solid #d0d8e8; }
@@ -129,7 +130,7 @@ td.red { color: #C00000; font-weight: 700; }
     <div class="r-tables">
       <div class="card">
         <div class="card-title">Rundeoversigt</div>
-        <table>
+        <table class="runde-tbl">
           <thead><tr>
             <th>Navn</th><th>Top-10</th><th>Bund-10</th>
             <th class="r">Point</th><th class="r">Gebyr</th><th class="r">Point bøde</th>
