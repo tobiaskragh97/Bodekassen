@@ -76,6 +76,11 @@ td.red { color: #C00000; font-weight: 700; }
 .chart-wrap { padding: 16px; }
 .section-label { font-size: 10px; color: #888; padding: 0 16px 8px; }
 
+.stats-tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+.stats-tbl th { background: #1F3864; color: white; padding: 7px 6px; text-align: left; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
+.stats-tbl td { padding: 7px 6px; border-bottom: 1px solid #f0f4f8; }
+.stats-tbl tr:nth-child(even) td { background: #EBF0F8; }
+.stats-tbl th.r, .stats-tbl td.r { text-align: right; }
 .loading { padding: 60px; text-align: center; color: #888; font-size: 14px; }
 
 @media (max-width: 1000px) {
@@ -230,18 +235,16 @@ td.red { color: #C00000; font-weight: 700; }
       <div class="card">
         <div class="card-title">Tabel — Bøder</div>
         <div class="section-label">Pr. person</div>
-        <div style="overflow-x:auto;">
-        <table>
+        <table class="stats-tbl">
           <thead><tr>
             <th>Navn</th>
-            <th class="r">Røde kort</th>
-            <th class="r">Brændte straffe</th>
-            <th class="r">5-måls neder.</th>
+            <th class="r">Røde</th>
+            <th class="r">Straffe</th>
+            <th class="r">5-mål</th>
             <th class="r">Point</th>
           </tr></thead>
           <tbody id="statsBody"></tbody>
         </table>
-        </div>
       </div>
 
     </div>
