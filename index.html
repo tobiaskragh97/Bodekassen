@@ -444,12 +444,14 @@ function renderStats() {
   const sæsonMap = {};
   allData.forEach(r=>{sæsonMap[r["Sæson"]]=(sæsonMap[r["Sæson"]]||0)+(r["Total"]||0);});
   const sæsonOrder = ["Efterår","Forår"];
-  const sLabels = Object.keys(sæsonMap).sort((a, b) => {
+  const sLabelsSorted = Object.keys(sæsonMap).sort((a, b) => {
     const [typeA, yearA] = a.split(" ");
     const [typeB, yearB] = b.split(" ");
     if (yearA !== yearB) return parseInt(yearA) - parseInt(yearB);
     return sæsonOrder.indexOf(typeA) - sæsonOrder.indexOf(typeB);
   });
+  // Reverse så nyeste er øverst i Chart.js (som renderer bottom-to-top)
+  const sLabels = sLabelsSorted.reverse();
   const sVals = sLabels.map(s => Math.round(sæsonMap[s]));
   mkChart("chartSæson", "bar", sLabels, sVals, "#2563a8", false, true);
 }
