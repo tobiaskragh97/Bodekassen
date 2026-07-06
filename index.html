@@ -375,7 +375,7 @@ function renderStats() {
   const senesteSæsonFlow = cashflowData
     .filter(r => parseInt(r[sæsonKey2]) === maxSæsonNum)
     .reduce((s,r) => s+(parseFloat(r[window.beløbKey])||0), 0);
-  document.getElementById("k-status-sub").textContent = "Bevægelse: " + fmtN(senesteSæsonFlow) + " DKK";
+  document.getElementById("k-status-sub").textContent = "Aktuelle sæson: " + fmtN(senesteSæsonFlow) + " DKK";
 
   const plIndbet = cashflowData.filter(r=>r["Kategori"]==="PL Bødekasse"&&(parseFloat(r[window.beløbKey])||0)>0)
     .reduce((s,r)=>s+(parseFloat(r[window.beløbKey])||0),0);
