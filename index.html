@@ -308,7 +308,12 @@ async function loadData() {
 }
 
 function initFilters() {
-  const sæsoner = [...new Set(allData.map(r=>r["Sæson"]))].sort();
+  const sæsonIdx = s => {
+    const [type, year] = s.split(" ");
+    const y = parseInt(year);
+    return type === "Efterår" ? (y - 2022) * 2 : (y - 2022) * 2 - 1;
+  };
+  const sæsoner = [...new Set(allData.map(r=>r["Sæson"]))].sort((a,b) => sæsonIdx(a) - sæsonIdx(b));
   const s = document.getElementById("sæsonFilter");
   s.innerHTML = sæsoner.map(x=>`<option value="${x}">${x}</option>`).join("");
   s.value = sæsoner[sæsoner.length-1];
