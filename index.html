@@ -458,13 +458,17 @@ function renderStats() {
   allData.forEach(r=>{sæsonMap[r["Sæson"]]=(sæsonMap[r["Sæson"]]||0)+(r["Total"]||0);});
   const sæsonOrder = ["Efterår","Forår"];
   const sLabelsSorted = Object.keys(sæsonMap).sort((a, b) => {
-    const [typeA, yearA] = a.split(" ");
-    const [typeB, yearB] = b.split(" ");
-    if (yearA !== yearB) return parseInt(yearA) - parseInt(yearB);
-    return sæsonOrder.indexOf(typeA) - sæsonOrder.indexOf(typeB);
+    // Efterår år X = (X-2022)*2, Forår år X = (X-2022)*2-1
+    // Giver: Efterår 2022=0, Forår 2023=1, Efterår 2023=2, Forår 2024=3...
+    const idx = s => {
+      const [type, year] = s.split(" ");
+      const y = parseInt(year);
+      return type === "Efterår" ? (y - 2022) * 2 : (y - 2022) * 2 - 1;
+    };
+    return idx(a) - idx(b);
   });
-  // Chart.js renderer bottom-to-top, så ældste først = Efterår 2022 øverst
-  const sLabels = sLabelsSorted;
+  // Chart.js renderer bottom-to-top, så nyeste øverst = reverse
+  const sLabels = [...sLabelsSorted].reverse();
   const sVals = sLabels.map(s => Math.round(sæsonMap[s]));
   mkChart("chartSæson", "bar", sLabels, sVals, "#2563a8", false, true);
 }
