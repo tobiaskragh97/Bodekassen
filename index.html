@@ -50,6 +50,10 @@ th { background: #1F3864; color: white; padding: 8px 8px; text-align: left; font
 th.r, td.r { text-align: right; }
 td { padding: 8px 8px; border-bottom: 1px solid #f0f4f8; }
 .runde-tbl td { padding: 0 8px; height: 44px; vertical-align: middle; }
+.runde-tbl td:first-child, .runde-tbl th:first-child { position: sticky; left: 0; background: white; z-index: 1; }
+.runde-tbl tr:nth-child(even) td:first-child { background: #EBF0F8; }
+.runde-tbl tr.tr td:first-child { background: #f7f9fc; }
+.runde-tbl th:first-child { background: #1F3864; z-index: 2; }
 tr:last-child td { border-bottom: none; }
 tr:nth-child(even) td { background: #EBF0F8; }
 tr.tr td { font-weight: 700; background: #f7f9fc; border-top: 2px solid #d0d8e8; }
